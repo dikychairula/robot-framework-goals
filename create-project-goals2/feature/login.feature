@@ -2,11 +2,11 @@
 Feature: Login TM Digital
 
     Background: Open Browser
-        Given user already access web TM Digital
+        Given User already access web TM Digital
         
     @Valid
     Scenario Outline: Valid Login
-        Given User go to TM Digital Home Page
+        Given User has on Login Page
         And User input email address "<email>"
         And User input password "<password>"
         And User click the Sign In Button

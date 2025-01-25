@@ -13,9 +13,14 @@ Valid Login example line 13
 
 
 *** Keywords ***
+Background
+    [Documentation]    Login
+    Given User already access web TM Digital
+
 Scenario Outline Valid Login
     [Arguments]    ${email}    ${password}
-    Given User go to TM Digital Home Page
+    Background
+    Given User has on Login Page
     And User input email address "${email}"
     And User input password "${password}"
     And User click the Sign In Button

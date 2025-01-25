@@ -1,7 +1,7 @@
 Feature: Create Project
     
     Background: Login
-        Given user already login to web TM Digital
+        Given User already login to web TM Digital
     
     Scenario Outline: Add New Project
         Given User has on dashboard page
@@ -24,4 +24,4 @@ Feature: Create Project
 
     Examples:
         | Image_Path           | Project_Name      | Project_Description           | Project_Type  | QA_Assigned         | Start_Date | End_Date   | Platform_Type    | Technology | Applications | Guest_Assigned   |
-        | C://apk/docker.jpg   | Dockers Project   | Description Docker Project    | Fixed Bid     | Diky Chairul Azwar  | today day  | 31         | Mobile Website   | NextJS     | Taiga        | Agung Prasetya   |
+        | C://apk/docker.jpg   | Docker Project    | Description Docker Project    | Fixed Bid     | Diky Chairul Azwar  | today day  | 31         | Mobile Website   | NextJS     | Taiga        | Agung Prasetya   |
