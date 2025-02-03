@@ -5,13 +5,6 @@ Library    SeleniumLibrary
 Resource    ../env.robot
  
 *** Keywords ***
-User already login to web TM Digital
-    Open Browser    ${SP_URL}    ${BROWSER}
-    Maximize Browser Window
-    Input Text    //input[@name='email']    ${EMAIL}
-    Input Text    //input[@name='password']    ${PASSWORD}
-    Click Button    //button[contains(text(), 'Sign In')]
-
 User has on dashboard page
     Wait Until Element Is Visible    //h1[contains(text(), 'Dashboard')]
     Element Should Be Visible    //h1[contains(text(), 'Dashboard')]    timeout=15 seconds
