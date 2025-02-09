@@ -4,6 +4,9 @@ Library    Collections
 Library    SeleniumLibrary
 Resource    ../env.robot
  
+*** Variables ***
+${target_month}    December 2025
+
 *** Keywords ***
 User has on dashboard page
     Wait Until Element Is Visible    //h1[contains(text(), 'Dashboard')]
@@ -45,26 +48,31 @@ User choose Start Date "${Start_Date}"
 
 User choose End Date "${End_Date}"
     Double Click Element    //span[text()='End Date']
-    Sleep    2s
-    Click Element    (//td[text()='${End_Date}'])[2]
+    
+    FOR    ${i}    IN RANGE    24
+        ${element_exists}    Run Keyword And Return Status    Element Should Be Visible    xpath=//th[text()='${target_month}']
+        Run Keyword If    ${element_exists}
+        ...    Exit For Loop
+        Click Element    (//th[@class='next'])[1]
+    END
+
+    Sleep    1s
+    Click Element    //td[text()='${End_Date}']
 
 User choose Platform Type "${Platform_Type}"
     Click Element    css=#form-add > div:nth-of-type(5) .multiselect
     Wait Until Element Is Visible    //label[text()=' Mobile Website']
     Click Element    //label[text()=' Mobile Website']
-    Click Element    css=#form-add > div:nth-of-type(5) .multiselect
 
 User choose Technology "${Technology}"
     Click Element    css=div:nth-of-type(6) > div:nth-of-type(1) .multiselect
     Wait Until Element Is Visible    //label[text()=' ${Technology}']
     Click Element    //label[text()=' ${Technology}']
-    Click Element    css=div:nth-of-type(6) > div:nth-of-type(1) .multiselect
 
 User testing Applications "${Applications}"
     Click Element    css=div:nth-of-type(6) > div:nth-of-type(2) .multiselect
     Wait Until Element Is Visible    //label[text()=' ${Applications}']
     Click Element    //label[text()=' ${Applications}']
-    Click Element    css=div:nth-of-type(6) > div:nth-of-type(2) .multiselect
 
 User choose Guest Assigned to "${Guest_Assigned}"
     Click Element    css=div:nth-of-type(7) > div:nth-of-type(1) .multiselect
@@ -80,12 +88,12 @@ User click button confirm
     Click Button    id=savedProjectSuccess
 
 Success add new Project
-    Wait Until Element Is Visible    //*[@id="savedProjectSuccessModal"]/div/div/div[2]/div/button    10s
-    Click Button    //*[@id="savedProjectSuccessModal"]/div/div/div[2]/div/button
+    Wait Until Element Is Visible    //button[text()='Ok']    15s
+    Click Element    //button[text()='Ok']
     Sleep    5s
     
     # melihat project yang sudah di add berdasarkan nama
     Click Element    //span[text()='Dashboard']
-    Wait Until Element Is Visible    //span[text()='Docker Project']
+    Wait Until Element Is Visible    //span[text()='Docker Project']    30s
     Scroll Element Into View    //span[text()='Docker Project']
     sleep    10s

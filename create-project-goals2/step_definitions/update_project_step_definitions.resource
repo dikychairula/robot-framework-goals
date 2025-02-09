@@ -4,14 +4,17 @@ Library    Collections
 Library    SeleniumLibrary
 Resource    ../env.robot
 
-*** Keywords ***
-# user already login to web TM Digital
-#     Open Browser    ${SP_URL}    ${BROWSER}
-#     Maximize Browser Window
-#     Input Text    //input[@name='email']    ${EMAIL}
-#     Input Text    //input[@name='password']    ${PASSWORD}
-#     Click Button    //button[contains(text(), 'Sign In')]
+*** Variables ***
+${Exist_Project}    Docker Project
+${Edited_Project}    Docker new
 
+${QA_Before}    Diky Chairul Azwar
+${QA_Edited}    niki
+
+${target_month}    June 2026
+${End_Date}    15
+
+*** Keywords ***
 User has on dashboard page
     Wait Until Element Is Visible    //h1[contains(text(), 'Dashboard')]
     Element Should Be Visible    //h1[contains(text(), 'Dashboard')]    timeout=15 seconds
@@ -21,20 +24,18 @@ User click menu Project
     Click Element    //span[text()='Project']
 
 User search project
-    Input Text    id=searchInput    Docker Edited
-    Sleep    1s
+    Input Text    id=searchInput    ${Exist_Project}
 
 User click Project Name
-    Wait Until Element Is Visible    //a[text()='Docker Edited']
-    Sleep    1s
-    Click Element    //div[@class='d-flex align-items-center justify-content-between mb-2']/a[.='Docker Edited']
+    Wait Until Element Is Visible    //a[text()='${Exist_Project}']
+    Click Element    //a[text()='${Exist_Project}']
 
-User click Edit Project button
-    Wait Until Element Is Visible    //a[contains(.,'Edit Project')]
-    Click Element    //a[contains(.,'Edit Project')]
+User click ${Edited_Project} button
+    Wait Until Element Is Visible    //a[contains(.,'${Edited_Project}')]
+    Click Element    //a[contains(.,'${Edited_Project}')]
 
 User uploads new picture "Image_Path"
-    Choose File    name=image    C://apk/docker.jpg
+    Choose File    name=image    C://apk/docker.png
 
 User fill Project Name "Project_Name"
     Input Text    name=name    Docker New
@@ -43,50 +44,57 @@ User fill Project Description "Project_Description"
     Input Text    //textarea[@name='description']    Desc Edited new
 
 User choose Project Type "Project_Type"
-    click Element    //span[text()='ET']
-    Wait Until Element Is Visible    //label[text()=' ET']
-    Click Element    //label[text()=' Fixed Bid']
+    click Element    //span[text()='Fixed Bid']
+    Wait Until Element Is Visible    //label[text()=' Fixed Bid']
+    Click Element    //label[text()=' ET']
 
 User choose QA Assigned to "QA_Assigned"
-    click Element    //span[text()='niki']
-    Wait Until Element Is Visible    //label[contains(.,'niki')]
-    Click Element    //label[contains(.,'niki')]
-    Click Element    //label[contains(.,'Diky Chairul Azwar')]
-    click Element    //span[text()='Diky Chairul Azwar']
+    click Element    //span[text()='${QA_Before}']
+    Wait Until Element Is Visible    //label[contains(.,'${QA_Before}')]
+    Click Element    //label[contains(.,'${QA_Before}')]
+    Click Element    //label[contains(.,'${QA_Edited}')]
+    click Element    //span[text()='${QA_Edited}']
 
 User choose Start Date "Start_Date"
-    Click Element    id=start_date
+    Click Element    name=start_date
     Sleep    1s
     Click Element    //td[@class='today active day']
 
 User choose End Date "End_Date"
-    Click Element    id=end_date
+    Click Element    name=end_date
+    
+    FOR    ${i}    IN RANGE    24
+        ${element_exists}    Run Keyword And Return Status    Element Should Be Visible    xpath=//th[text()='${target_month}']
+        Run Keyword If    ${element_exists}
+        ...    Exit For Loop
+        Click Element    (//th[@class='next'])[1]
+    END
+
     Sleep    1s
-    Double Click Element    (//th[@class='next'])[1]
-    Click Element    //td[text()=16]
+    Click Element    //td[text()='${End_Date}']
 
 User choose Platform Type "Platform_Type"
-    Click Element    //span[text()='Desktop']
-    Wait Until Element Is Visible    //label[text()=' Desktop']
-    Click Element    //label[text()=' Desktop']
+    Click Element    //span[text()='Mobile Website']
+    Wait Until Element Is Visible    //label[text()=' Mobile Website']
     Click Element    //label[text()=' Mobile Website']
+    Click Element    //label[text()=' Desktop']
 
 User choose Technology "Technology"
-    Click Element    //span[text()='Golang']
-    Wait Until Element Is Visible    //label[text()=' Golang']
-    Click Element    //label[text()=' Golang']
+    Click Element    //span[text()='NextJS']
+    Wait Until Element Is Visible    //label[text()=' NextJS']
     Click Element    //label[text()=' NextJS']
+    Click Element    //label[text()=' Golang']
 User testing Applications "Applications"
-    Click Element    //span[text()='K6']
-    Wait Until Element Is Visible    //label[text()=' K6']
-    Click Element    //label[text()=' K6']
+    Click Element    //span[text()='Taiga']
+    Wait Until Element Is Visible    //label[text()=' Taiga']
     Click Element    //label[text()=' Taiga']
+    Click Element    //label[text()=' K6']
 
 User choose Guest Assigned to "Guest_Assigned"
-    Click Element    //span[text()='Alifadillah']
-    Wait Until Element Is Visible    //label[text()=' Alifadillah']
-    Click Element    //label[text()=' Alifadillah']
+    Click Element    //span[text()='Agung Prasetya']
+    Wait Until Element Is Visible    //label[text()=' Agung Prasetya']
     Click Element    //label[text()=' Agung Prasetya']
+    Click Element    //label[text()=' Kahfi Zakaria Luthfi']
 
 User click button Save Project
     Click Button    id=save
@@ -94,10 +102,10 @@ User click button Save Project
 User click button confirm
     Wait Until Element Is Visible    id=savedProjectSuccess
     Click Element    id=savedProjectSuccess
-    Wait Until Element Is Visible    //div[@id='savedProjectSuccessModal']//button[@class='btn-add btn-primary text-bold text-white modal-btn mx-1 sz-14']
-    Click Element    //div[@id='savedProjectSuccessModal']//button[@class='btn-add btn-primary text-bold text-white modal-btn mx-1 sz-14']
+    Wait Until Element Is Visible    //button[text()='Ok']    15s
+    Click Element    //button[text()='Ok']
 Success update Project
     Wait Until Element Is Visible    id=searchInput
     Input Text    id=searchInput    Docker new
-    Wait Until Element Is Visible    //a[text()='Docker New'] 10s
+    Wait Until Element Is Visible    //a[text()='Docker New']    10s
     Sleep    8s
