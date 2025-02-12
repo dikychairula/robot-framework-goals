@@ -33,5 +33,3 @@ Update Existing Project
 Background
     [Documentation]    Login
     Given user already login to web TM Digital
-
-

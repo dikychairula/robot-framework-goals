@@ -42,12 +42,12 @@ User choose QA Assigned to "${QA_Assigned}"
     click Element    css=#form-add > div:nth-of-type(4) > div:nth-of-type(2) .multiselect
 
 User choose Start Date "${Start_Date}"
-    Double Click Element    //span[text()='Start Date']
+    Double Click Element    name=start_date
     Sleep    2s
     Click Element    //td[@class='${Start_Date}']
 
 User choose End Date "${End_Date}"
-    Double Click Element    //span[text()='End Date']
+    Double Click Element    name=end_date
     
     FOR    ${i}    IN RANGE    24
         ${element_exists}    Run Keyword And Return Status    Element Should Be Visible    xpath=//th[text()='${target_month}']

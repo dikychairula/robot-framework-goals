@@ -17,7 +17,6 @@ Delete Exist Project
     And User click Confirm Delete button
     Then Project shouldn't Exist
 
-
 *** Keywords ***
 Background
     [Documentation]    Login

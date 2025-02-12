@@ -4,7 +4,7 @@ Library    Collections
 Library    SeleniumLibrary
 
 *** Variables ***
-${Deleted_Project}    Docker New
+${Deleted_Project}    Docker new
 
 *** Keywords ***    
 User search project
@@ -13,6 +13,7 @@ User search project
 
 User click Project Name
     Wait Until Element Is Visible    //a[text()='${Deleted_Project}']
+    Sleep    2s
     Click Element    //a[text()='${Deleted_Project}']
 
 User click Delete Project button
@@ -28,6 +29,6 @@ User click Confirm Delete button
 Project shouldn't Exist
     Wait Until Element Is Visible    id=searchInput
     Input Text    id=searchInput    ${Deleted_Project}
-    Sleep    2s
+    Sleep    5s
     Element Should Not Be Visible    //a[text()='${Deleted_Project}']
-
+    Sleep    2s

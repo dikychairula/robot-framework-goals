@@ -28,17 +28,18 @@ User search project
 
 User click Project Name
     Wait Until Element Is Visible    //a[text()='${Exist_Project}']
+    Sleep    1s
     Click Element    //a[text()='${Exist_Project}']
 
-User click ${Edited_Project} button
-    Wait Until Element Is Visible    //a[contains(.,'${Edited_Project}')]
-    Click Element    //a[contains(.,'${Edited_Project}')]
+User click Edit Project button
+    Wait Until Element Is Visible    //a[contains(.,'Edit Project')]
+    Click Element    //a[contains(.,'Edit Project')]
 
 User uploads new picture "Image_Path"
     Choose File    name=image    C://apk/docker.png
 
 User fill Project Name "Project_Name"
-    Input Text    name=name    Docker New
+    Input Text    name=name    ${Edited_Project}
 
 User fill Project Description "Project_Description"
     Input Text    //textarea[@name='description']    Desc Edited new
@@ -107,5 +108,5 @@ User click button confirm
 Success update Project
     Wait Until Element Is Visible    id=searchInput
     Input Text    id=searchInput    Docker new
-    Wait Until Element Is Visible    //a[text()='Docker New']    10s
+    Wait Until Element Is Visible    //a[text()='Docker new']    10s
     Sleep    8s
