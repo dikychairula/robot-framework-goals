@@ -21,3 +21,4 @@ Delete Exist Project
 Background
     [Documentation]    Login
     Given User already login to web TM Digital
+    When Get Project Name From File
