@@ -106,6 +106,7 @@ Success add new Project
     Sleep    8s
 
 Add Project Name To File
+    Create File    ${Project_Name_Path}
     ${data}    Set Variable    ${Project_Name}
     Append To File    ${Project_Name_Path}    ${data}
 
