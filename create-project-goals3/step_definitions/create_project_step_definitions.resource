@@ -5,6 +5,8 @@ Library    SeleniumLibrary
 Library    String
 Library    OperatingSystem
 Library    random
+Resource    ../variables/globalVariable.robot
+
 
 *** Variables ***
 ${target_month}    December 2025
@@ -24,32 +26,37 @@ User click button Add New Project
     Click Element    //a[@href='/project/add']
     sleep    2s
 
-User uploads image "${Image_Path}"
-    Choose File    name=image    ${Image_Path}
+User uploads image
+    Choose File    name=image    ${Random_Image_Path}
 
-User fill Project Name "${Project_Name}"
+User fill Project Name
     Input Text    name=name    ${Project_Name}
 
-User fill Project Description "${Project_Description}"
+User fill Project Description
     Input Text    //textarea[@name='description']    ${Project_Description}
 
-User choose Project Type "${Project_Type}"
+User choose Project Type
     click Element    //span[text()='Please Select']
     Wait Until Element Is Visible    //label[text()=' Fixed Bid']
-    Click Element    //label[text()=' Fixed Bid']
+    
+    ${options}    Get WebElements    //*[@id="form-add"]/div[4]/div[1]/div/div[1]/div/ul//li
+    ${project_type}=    Random Dropdown ${options}
+    Click Element    //label[text()=' ${project_type}']
 
-User choose QA Assigned to "${QA_Assigned}"
+User choose QA Assigned to
     click Element    css=#form-add > div:nth-of-type(4) > div:nth-of-type(2) .multiselect
-    Wait Until Element Is Visible    //label[contains(.,'${QA_Assigned}')]
-    Click Element    //label[contains(.,'${QA_Assigned}')]
-    click Element    css=#form-add > div:nth-of-type(4) > div:nth-of-type(2) .multiselect
+    Wait Until Element Is Visible    //label[contains(.,'Select all')]
 
-User choose Start Date "${Start_Date}"
+    ${options}    Get WebElements    //*[@id="form-add"]/div[4]/div[2]/div/div[1]/div/ul//li
+    ${QA_assigned}=    Random Dropdown ${options}
+    Click Element    //label[contains(.,'${QA_assigned}')]
+
+User choose Start Date
     Double Click Element    name=start_date
     Sleep    2s
     Click Element    //td[@class='${Start_Date}']
 
-User choose End Date "${End_Date}"
+User choose End Date
     Double Click Element    name=end_date
     
     FOR    ${i}    IN RANGE    24
@@ -62,25 +69,39 @@ User choose End Date "${End_Date}"
     Sleep    1s
     Click Element    //td[text()='${End_Date}']
 
-User choose Platform Type "${Platform_Type}"
+User choose Platform Type
     Click Element    css=#form-add > div:nth-of-type(5) .multiselect
-    Wait Until Element Is Visible    //label[text()=' Mobile Website']
-    Click Element    //label[text()=' Mobile Website']
+    Sleep    1s
 
-User choose Technology "${Technology}"
+    ${options}    Get WebElements    //*[@id="form-add"]/div[5]/div[2]/div/div[1]/div/ul//li
+    ${platform_type}=    Random Dropdown ${options}
+    Click Element    //label[contains(.,'${platform_type}')]
+    
+User choose Technology
     Click Element    css=div:nth-of-type(6) > div:nth-of-type(1) .multiselect
-    Wait Until Element Is Visible    //label[text()=' ${Technology}']
-    Click Element    //label[text()=' ${Technology}']
+    Sleep    1s
 
-User testing Applications "${Applications}"
+    ${options}    Get WebElements    //*[@id="form-add"]/div[6]/div[1]/div/div[1]/div/ul//li
+    ${technology}=    Random Dropdown ${options}    
+    Click Element    //label[text()=' ${technology}']
+
+User testing Applications
     Click Element    css=div:nth-of-type(6) > div:nth-of-type(2) .multiselect
-    Wait Until Element Is Visible    //label[text()=' ${Applications}']
-    Click Element    //label[text()=' ${Applications}']
+    Sleep    1s
 
-User choose Guest Assigned to "${Guest_Assigned}"
+    ${options}    Get WebElements    //*[@id="form-add"]/div[6]/div[2]/div/div[1]/div/ul//li
+    ${applications}=    Random Dropdown ${options}
+    
+    Click Element    //label[text()=' ${applications}']
+
+User choose Guest Assigned to
     Click Element    css=div:nth-of-type(7) > div:nth-of-type(1) .multiselect
-    Wait Until Element Is Visible    //label[text()=' ${Guest_Assigned}']
-    Click Element    //label[text()=' ${Guest_Assigned}']
+    Sleep    1s
+
+    ${options}    Get WebElements    //*[@id="form-add"]/div[7]/div[1]/div/div[1]/div/ul//li
+    ${guest_assigned}=    Random Dropdown ${options}
+
+    Click Element    //label[text()=' ${guest_assigned}']
     Click Element    css=div:nth-of-type(7) > div:nth-of-type(1) .multiselect
 
 User click button Save Project
@@ -105,11 +126,39 @@ Success add new Project
     Input Text    id=searchInput    ${Project_Name}
     Sleep    8s
 
+
+
 Add Project Name To File
     Create File    ${Project_Name_Path}
     ${data}    Set Variable    ${Project_Name}
     Append To File    ${Project_Name_Path}    ${data}
 
-Random Project Name
+Random Environment Create new Project
+# Random Project Name
     ${random_number}=    Evaluate    random.randint(100, 1000)    random
     Set Global Variable    ${Project_Name}   Dockerin ${random_number}
+
+# Random Image from folder images
+    # Mendapatkan daftar file di folder
+    @{files}=    List Files In Directory    ${Folder_Image_Path}
+
+    # Panjang List
+    ${max_length}=    Get Length    ${files}
+    
+    # Mendapatkan path image berdasarkan random index
+    ${random_number}=    Evaluate    random.randint(0, ${max_length}-1)    random
+    Set Global Variable    ${Random_Image_Path}    ${Folder_Image_Path}/${files}[${random_number}]
+
+Random Dropdown ${options}
+    @{list_values}    Create List
+    FOR    ${i}    IN    @{options}
+        Log To Console    ${i}
+        ${text}    Get Text    ${i}
+        Append To List    ${list_values}    ${text}
+    END
+    
+    ${filtered_values}    Create List    @{list_values}[1:]
+
+    ${random_index}=    Evaluate    random.choice(${filtered_values})    random
+    Log To Console    ${filtered_values}
+    RETURN    ${random_index}

@@ -18,7 +18,7 @@ Simpan dan Baca Variabel dari File
     # Menyimpan variabel ke dalam file
     ${data}    Set Variable    VariabelContoh=12345
     Append To File    ${FILE_PATH}    ${data}
-
+    
     # Membaca variabel dari file
     ${isi_file}    Get File    ${FILE_PATH}
     Log    Isi file: ${isi_file}
